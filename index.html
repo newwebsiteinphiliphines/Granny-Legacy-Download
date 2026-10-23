@@ -1,0 +1,299 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Verification - JOHNBERT20</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        },
+                        cf: {
+                            bg: '#181818',
+                            border: '#333333',
+                            hover: '#222222'
+                        }
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom spinner animation */
+        .spinner {
+            border: 2.5px solid #3b82f6;
+            border-right-color: transparent;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            animation: spin 0.75s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Card transition effects */
+        .fade-in-up {
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-center p-4 relative overflow-x-hidden selection:bg-sky-500 selection:text-white">
+
+    <!-- Subtle Background Glows -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-1/4 left-1/2 -translate-x-1/2 translate-y-1/2 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-md relative z-10">
+        
+        <!-- Header / Logo -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-14 h-14 bg-slate-900 border border-slate-800 text-sky-400 rounded-2xl shadow-2xl mb-4 shadow-sky-500/10">
+                <i class="fa-solid fa-shield-halved text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight text-white">Security Check</h1>
+            <p class="text-sm text-slate-400 mt-1.5">Please verify that you are human to access the code.</p>
+        </div>
+
+        <!-- Dynamic Card Container -->
+        <div class="bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-800/80 shadow-2xl overflow-hidden transition-all duration-300">
+            
+            <!-- STEP 1: Realistic Cloudflare Verification Widget -->
+            <div id="verification-step" class="p-6 sm:p-7">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Access Verification</span>
+                    <span class="inline-flex items-center text-[11px] text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700/50">
+                        <i class="fa-solid fa-lock text-[10px] text-emerald-400 mr-1.5"></i> Encrypted
+                    </span>
+                </div>
+                
+                <!-- Cloudflare Box Widget -->
+                <div id="cf-box" class="flex items-center justify-between p-4 bg-cf-bg border border-cf-border rounded-xl cursor-pointer hover:bg-cf-hover hover:border-slate-700 transition-all duration-200 shadow-lg select-none group" onclick="startVerification()">
+                    <div class="flex items-center space-x-3.5">
+                        <!-- Custom Checkbox Box -->
+                        <div id="checkbox-container" class="w-7 h-7 border-2 border-slate-600 bg-slate-800/80 rounded-md flex items-center justify-center transition-all duration-200 group-hover:border-slate-500">
+                            <!-- Check Icon (Initially Hidden) -->
+                            <i id="check-icon" class="fa-solid fa-check text-emerald-400 text-base scale-0 transition-transform duration-200"></i>
+                            <!-- Spinner (Initially Hidden) -->
+                            <div id="spinner-icon" class="spinner hidden"></div>
+                        </div>
+                        <span id="verify-text" class="text-sm font-medium text-slate-200 transition-colors">Verify you are human</span>
+                    </div>
+
+                    <!-- Cloudflare Branding -->
+                    <div class="flex flex-col items-end opacity-80 group-hover:opacity-100 transition-opacity">
+                        <div class="flex items-center space-x-1.5">
+                            <i class="fa-solid fa-cloud text-orange-500 text-lg"></i>
+                            <span class="text-xs font-bold text-slate-300 tracking-tight">CLOUDFLARE</span>
+                        </div>
+                        <div class="flex items-center space-x-1 text-[10px] text-slate-400 mt-0.5">
+                            <a href="#" class="hover:underline">Privacy</a>
+                            <span>•</span>
+                            <a href="#" class="hover:underline">Terms</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Helper Text -->
+                <p id="status-hint" class="text-xs text-center text-slate-400 mt-5">Click the checkbox above to continue.</p>
+            </div>
+
+            <!-- STEP 2: Code Result Card (Hidden Initially) -->
+            <div id="result-step" class="hidden p-6 sm:p-7 bg-slate-900/90 fade-in-up">
+                <div class="flex items-center justify-between mb-5 pb-3 border-b border-slate-800">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <i class="fa-solid fa-circle-check mr-1.5 text-xs"></i> Verified Successfully
+                    </span>
+                    <span class="text-xs text-slate-400 font-mono">CODE ID #2026</span>
+                </div>
+
+                <label class="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Your Exclusive Code</label>
+                
+                <!-- Code Box with Copy Button -->
+                <div class="relative flex items-center justify-between bg-slate-950 p-3.5 sm:p-4 rounded-xl border border-slate-800/90 shadow-inner group">
+                    <span id="code-text" class="font-mono font-bold text-xl sm:text-2xl text-emerald-400 tracking-widest pl-2 selection:bg-emerald-500/30">JOHNBERT20</span>
+                    
+                    <button onclick="copyCode()" id="copy-btn" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-sky-400/50 shadow-lg shadow-sky-600/20">
+                        <i id="copy-icon" class="fa-regular fa-copy text-sm"></i>
+                        <span id="copy-label">Copy Code</span>
+                    </button>
+                </div>
+
+                <!-- Toast Notification Banner -->
+                <div id="toast" class="hidden mt-4 p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-xl flex items-center justify-between animate-pulse">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-check-circle text-emerald-400 text-sm"></i>
+                        <span>Code copied to clipboard!</span>
+                    </div>
+                    <span class="text-[10px] text-emerald-500 font-mono">Ready to paste</span>
+                </div>
+
+                <!-- Footer Reset Action -->
+                <div class="mt-6 text-center">
+                    <button onclick="resetVerification()" class="text-xs text-slate-500 hover:text-slate-300 transition-colors underline underline-offset-4">
+                        Re-verify or test again
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Hidden textarea used as fallback for clipboard execution -->
+    <textarea id="hidden-copy-area" class="sr-only" aria-hidden="true"></textarea>
+
+    <!-- Footer -->
+    <footer class="mt-8 text-center text-xs text-slate-400">
+        &copy; 2026 Verification Portal. All rights reserved.
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let isVerifying = false;
+        let isVerified = false;
+
+        // Handles Cloudflare verification animation & workflow
+        function startVerification() {
+            if (isVerifying || isVerified) return;
+
+            isVerifying = true;
+
+            const checkbox = document.getElementById('checkbox-container');
+            const spinner = document.getElementById('spinner-icon');
+            const verifyText = document.getElementById('verify-text');
+            const statusHint = document.getElementById('status-hint');
+
+            // Show Spinner State
+            spinner.classList.remove('hidden');
+            checkbox.classList.remove('border-slate-600');
+            checkbox.classList.add('border-sky-500');
+            verifyText.innerText = "Verifying browser details...";
+            verifyText.classList.add('text-slate-300');
+            statusHint.innerText = "Please wait a moment while we perform security checks...";
+
+            // Simulate realistic 2-second Cloudflare verification check
+            setTimeout(() => {
+                spinner.classList.add('hidden');
+                
+                const checkIcon = document.getElementById('check-icon');
+                checkIcon.classList.remove('scale-0');
+                checkIcon.classList.add('scale-100');
+                
+                checkbox.classList.remove('border-sky-500', 'bg-slate-800/80');
+                checkbox.classList.add('border-emerald-500', 'bg-emerald-500/10');
+                verifyText.innerText = "Verification successful";
+                verifyText.className = "text-sm font-semibold text-emerald-400 transition-colors";
+                
+                isVerified = true;
+                isVerifying = false;
+
+                // Transition seamlessly to result step
+                setTimeout(() => {
+                    document.getElementById('verification-step').classList.add('hidden');
+                    document.getElementById('result-step').classList.remove('hidden');
+                }, 600);
+
+            }, 1800);
+        }
+
+        // Copies code to clipboard and triggers user feedback
+        function copyCode() {
+            const codeText = document.getElementById('code-text').innerText;
+            const copyBtn = document.getElementById('copy-btn');
+            const copyIcon = document.getElementById('copy-icon');
+            const copyLabel = document.getElementById('copy-label');
+            const toast = document.getElementById('toast');
+
+            // Execute copy with fallback support
+            const tempInput = document.getElementById('hidden-copy-area');
+            tempInput.value = codeText;
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999);
+
+            try {
+                document.execCommand('copy');
+                
+                // Update Button State to Success
+                copyBtn.classList.remove('bg-sky-600', 'hover:bg-sky-500', 'shadow-sky-600/20');
+                copyBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-500', 'shadow-emerald-600/20');
+                copyIcon.className = "fa-solid fa-check text-sm";
+                copyLabel.innerText = "Copied!";
+
+                // Show Toast Notification
+                toast.classList.remove('hidden');
+
+                // Revert button state after 3 seconds
+                setTimeout(() => {
+                    copyBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500', 'shadow-emerald-600/20');
+                    copyBtn.classList.add('bg-sky-600', 'hover:bg-sky-500', 'shadow-sky-600/20');
+                    copyIcon.className = "fa-regular fa-copy text-sm";
+                    copyLabel.innerText = "Copy Code";
+                    toast.classList.add('hidden');
+                }, 3000);
+
+            } catch (err) {
+                console.error('Failed to copy text:', err);
+            }
+        }
+
+        // Resets widget state for testing
+        function resetVerification() {
+            isVerifying = false;
+            isVerified = false;
+
+            // Reset icon & spinner
+            const checkIcon = document.getElementById('check-icon');
+            checkIcon.classList.remove('scale-100');
+            checkIcon.classList.add('scale-0');
+
+            document.getElementById('spinner-icon').classList.add('hidden');
+            
+            // Reset Checkbox styling
+            const checkbox = document.getElementById('checkbox-container');
+            checkbox.className = "w-7 h-7 border-2 border-slate-600 bg-slate-800/80 rounded-md flex items-center justify-center transition-all duration-200 group-hover:border-slate-500";
+
+            // Reset Text
+            const verifyText = document.getElementById('verify-text');
+            verifyText.innerText = "Verify you are human";
+            verifyText.className = "text-sm font-medium text-slate-200 transition-colors";
+
+            document.getElementById('status-hint').innerText = "Click the checkbox above to continue.";
+
+            // Toggle view panels
+            document.getElementById('result-step').classList.add('hidden');
+            document.getElementById('verification-step').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
+```
